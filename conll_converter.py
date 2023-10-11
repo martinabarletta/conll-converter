@@ -60,7 +60,7 @@ def write_dir(save_path):
 def write_conll(save_path, file, content):
     file = os.path.basename(file)
     write_dir(save_path)
-    file_out = file[:-10]+"ann"
+    file_out = file[:-11]+"ann"
     complete_file_name = os.path.join(save_path, file_out)
     with open(complete_file_name+".conllu","w",encoding="utf8", newline="\n") as file_out:
         file_out.write(content)
@@ -71,6 +71,11 @@ def convert_conllu(folder_in, folder_out):
     for this_file in folder_in :
         with open (this_file, "r", encoding="utf8") as infile :
             texte = infile.read().strip()
+            texte = texte.replace("   ","")
+            texte = texte.replace("  ","")
+            texte = texte.replace("\
+                                  "," ")
+
         doc = nlp(texte)
         str_conll = doc._.conll_str
         str_conll = str_conll+"\n"
@@ -113,12 +118,12 @@ nlp.add_pipe("conll_formatter", last=True)
 
 ###manual
 date="_11-10-2023"
-folder_in = ["./CE2normlong_27-09-2023_predv2/"]
+folder_in = ["./CPnormlong_27-09-2023_predv2/"]
 
-folder_out = [f"./conll/transformer_{today}"]
+folder_out = [f"./conll/CPnormlong_27-09-2023_predv2{today}"]
               
 
-outfile = [f"./conll/transformer_{today}.conllu"]
+outfile = [f"./conll/CPnormlong_27-09-2023_predv2{today}.conllu"]
 
 print("Début")
 for infolder, outfolder, outfile in zip(folder_in, folder_out, outfile):
